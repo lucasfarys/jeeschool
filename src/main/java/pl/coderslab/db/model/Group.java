@@ -6,6 +6,7 @@ public class Group {
     public Group(){};
     public Group(String name, int user_group_id){
         this.name = name;
+        this.id = user_group_id;
     }
     public void setId(int id) {
         this.id = id;

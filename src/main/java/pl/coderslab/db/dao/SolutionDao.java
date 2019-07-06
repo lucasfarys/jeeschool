@@ -2,6 +2,7 @@ package pl.coderslab.db.dao;
 
 import pl.coderslab.db.model.Exercise;
 import pl.coderslab.db.model.Solution;
+import pl.coderslab.db.model.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -18,11 +19,12 @@ public class SolutionDao {
             "DELETE FROM solution WHERE id = ?";
     private static final String FIND_ALL_SOLUTIONS_QUERY =
             "SELECT * FROM solution";
-    private static final String FIND_ALL_EXERCISE_BY_USER = "SELECT * FROM exercise JOIN solution ON" +
-            "exercise.id = solution.exercise_id WHERE solution.exercise_id = ?;";
+    private static final String FIND_ALL_EXERCISE_BY_USER = "SELECT * FROM exercise join solution on solution.exercise_id=exercise.id and solution.user_id=?";
     private static final String FIND_ALL_SOLUTION_BY_EXERCISE = "SELECT * FROM solution WHERE solution.exercise_id = ?" +
             "ORDER BY updated DESC;";
-    private  static final String FIND_ALL_SOLUTION = "SELECT * FROM solution ORDER BY id LIMIT ?";
+    private  static final String FIND_WITH_LIMIT_SOLUTION = "SELECT solution.*, exercise.title, users.username FROM solution join " +
+            "exercise on solution.exercise_id=exercise.id join users on users.id=solution.user_id ORDER BY created DESC LIMIT ? ";
+    private static final String FIND_ALL_BY_USER_GROUP_ID = "SELECT * FROM users where id=(SELECT user_id FROM solution where user_group_id=?)";
 
     public Solution create(Solution solution) {
         try (Connection conn = DbUtil.getConnection()) {
@@ -91,7 +93,7 @@ public class SolutionDao {
         List<Exercise> exercise = new ArrayList<>();
         Exercise exerciseGet = new Exercise();
         try (Connection conn = DbUtil.getConnection()) {
-            PreparedStatement statement = conn.prepareStatement(UPDATE_SOLUTION_QUERY);
+            PreparedStatement statement = conn.prepareStatement(FIND_ALL_EXERCISE_BY_USER);
             statement.setInt(1, user_id);
             ResultSet resultSet = statement.executeQuery();
             while(resultSet.next()){
@@ -129,22 +131,41 @@ public class SolutionDao {
     public List<Solution> findRecent(int limit){
         List<Solution> solutions = new ArrayList<>();
         try (Connection conn = DbUtil.getConnection()) {
-            PreparedStatement statement = conn.prepareStatement(FIND_ALL_SOLUTION);
+            PreparedStatement statement = conn.prepareStatement(FIND_WITH_LIMIT_SOLUTION);
             statement.setInt(1, limit);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Solution solution = new Solution();
                 solution.setId(resultSet.getInt("id"));
                 solution.setCreated(resultSet.getTimestamp("created"));
-                solution.setUpdated(resultSet.getTimestamp("updated"));
-                solution.setDescription(resultSet.getString("description"));
+                //solution.setUpdated(resultSet.getTimestamp("updated"));
+                //solution.setDescription(resultSet.getString("description"));
                 solution.setExercise_id(resultSet.getInt("exercise_id"));
                 solution.setUser_id(resultSet.getInt("user_id"));
+                solution.setExerciseTitle(resultSet.getString("exercise.title"));
+                solution.setExerciseAuthor(resultSet.getString("users.username"));
                 solutions.add(solution);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return solutions;
+    }
+    public List<User> loadAllByGroupId (int id){
+        List<User> users = new ArrayList<>();
+        try (Connection conn = DbUtil.getConnection()) {
+            PreparedStatement statement = conn.prepareStatement(FIND_ALL_BY_USER_GROUP_ID);
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                User user = new User();
+                user.setId(resultSet.getInt("id"));
+                user.setUserName(resultSet.getString("username"));
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
     }
 }

@@ -3,6 +3,8 @@ package pl.coderslab.db.dao;
 import pl.coderslab.db.model.Exercise;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ExerciseDao {
     private static final String CREATE_EXERCISE_QUERY =
@@ -14,7 +16,10 @@ public class ExerciseDao {
     private static final String DELETE_EXERCISE_QUERY =
             "DELETE FROM exercise WHERE id = ?;";
     private static final String FIND_ALL_EXERCISES_QUERY =
-            "SELECT title FROM exercise;";
+            "SELECT * FROM exercise;";
+    private static final String FIND_EXERCISE_BY_EXERCISE_ID_AND_USER_ID = "SELECT * FROM exercise where " +
+            "id=(SELECT exercise_id FROM solution where solution.exercise_id=? and solution.user_id=?)";
+
     public Exercise create(Exercise exercise) {
         try (Connection conn = DbUtil.getConnection()) {
             PreparedStatement statement =
@@ -80,6 +85,39 @@ public class ExerciseDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+    }
+    public Exercise loadById (int exercise_id, int user_id){
+        Exercise exercise = new Exercise();
+        try (Connection conn = DbUtil.getConnection()) {
+            PreparedStatement statement = conn.prepareStatement(FIND_EXERCISE_BY_EXERCISE_ID_AND_USER_ID);
+            statement.setInt(1, exercise_id);
+            statement.setInt(2, user_id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                exercise.setId(resultSet.getInt("id"));
+                exercise.setTitle(resultSet.getString("title"));
+                exercise.setDescription(resultSet.getString("description"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return exercise;
+    }
+    public List<Exercise> findAll(){
+        List<Exercise> exercises = new ArrayList<>();
+        try (Connection conn = DbUtil.getConnection()) {
+            PreparedStatement statement = conn.prepareStatement(FIND_ALL_EXERCISES_QUERY);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Exercise exercise = new Exercise();
+                exercise.setId(resultSet.getInt("id"));
+                exercise.setTitle(resultSet.getString("title"));
+                exercise.setDescription(resultSet.getString("description"));
+                exercises.add(exercise);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return exercises;
     }
 }

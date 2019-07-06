@@ -3,6 +3,8 @@ package pl.coderslab.db.dao;
 import pl.coderslab.db.model.Group;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GroupDao {
     private static final String CREATE_GROUP_QUERY =
@@ -10,11 +12,11 @@ public class GroupDao {
     private static final String READ_GROUP_QUERY =
             "SELECT * FROM user_group where id = ?";
     private static final String UPDATE_GROUP_QUERY =
-            "UPDATE user_group SET name = ? WHERE id = ?";
+            "UPDATE user_group SET name=? WHERE id=?";
     private static final String DELETE_GROUP_QUERY =
-            "DELETE FROM user_group WHERE id = ?";
+            "DELETE FROM user_group WHERE id=?";
     private static final String FIND_ALL_GROUPS_QUERY =
-            "SELECT name FROM user_group";
+            "SELECT * FROM user_group";
 
     public Group create(Group group) {
         try (Connection conn = DbUtil.getConnection()) {
@@ -68,13 +70,22 @@ public class GroupDao {
             e.printStackTrace();
         }
     }
-    public  void findAll (){
+    public List<Group> findAll (){
+        List<Group> groups = new ArrayList<>();
         try( Connection connection  = DbUtil.getConnection()){
            PreparedStatement statement = connection.prepareStatement(FIND_ALL_GROUPS_QUERY);
-           statement.executeQuery();
+           ResultSet resultSet = statement.executeQuery();
+           while(resultSet.next()){
+               Group group = new Group();
+               group.setId(resultSet.getInt("id"));
+               group.setName(resultSet.getString("name"));
+               groups.add(group);
+           }
+
         }catch(SQLException e){
             e.printStackTrace();
         }
+        return groups;
     }
     public static void printAllGroup (){
         try (Connection conn = DbUtil.getConnection()) {

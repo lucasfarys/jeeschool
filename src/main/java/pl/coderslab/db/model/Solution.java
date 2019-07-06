@@ -13,6 +13,8 @@ public class Solution {
     private String description;
     private int exercise_id;
     private Integer user_id;
+    private String exerciseTitle;
+    private String exerciseAuthor;
     private List<Solution> allSolutionByExercise = new ArrayList<>();
     public Solution(){}
     Solution( int id, Timestamp created, Timestamp updated, String description, int exercise_id,
@@ -23,6 +25,22 @@ public class Solution {
         this.description = description;
         this.exercise_id = exercise_id;
         this.user_id = user_id;
+    }
+
+    public void setExerciseAuthor(String exerciseAuthor) {
+        this.exerciseAuthor = exerciseAuthor;
+    }
+
+    public String getExerciseAuthor() {
+        return exerciseAuthor;
+    }
+
+    public void setExerciseTitle(String exerciseTitle) {
+        this.exerciseTitle = exerciseTitle;
+    }
+
+    public String getExerciseTitle() {
+        return exerciseTitle;
     }
 
     public int getId() {

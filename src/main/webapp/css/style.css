@@ -1,0 +1,9 @@
+.tablex2 {
+    //border-style: solid;
+    border-collapse:separate;
+    border:10px solid red;
+    width:300px;
+    table-layout:fixed;
+    background-color: darkcyan;
+
+}

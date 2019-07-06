@@ -8,7 +8,7 @@ import java.util.List;
 
 public class UserDao {
     private static final String CREATE_USER_QUERY =
-            "INSERT INTO users(username, email, password, user_group_id) VALUES (?, ?, ?,?)";
+            "INSERT INTO users(username, email, password) VALUES (?, ?, ?)";
     private static final String READ_USER_QUERY =
             "SELECT * FROM users where id = ?";
     private static final String UPDATE_USER_QUERY =
@@ -16,7 +16,7 @@ public class UserDao {
     private static final String DELETE_USER_QUERY =
             "DELETE FROM users WHERE id = ?";
     private static final String FIND_ALL_USERS_QUERY =
-            "SELECT username FROM users";
+            "SELECT * FROM users";
     private static final String FIND_ALL_USERS_BY_GROUP_QUERY = "SELECT * FROM users JOIN user_group ON " +
             "users.id = users_group.user_id WHERE user_group.name = ?";
 
@@ -27,7 +27,6 @@ public class UserDao {
             statement.setString(1, user.getUserName());
             statement.setString(2, user.getEmail());
             statement.setString(3, user.getPassword());
-            statement.setInt(3, user.getUser_group_id());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
@@ -67,6 +66,7 @@ public class UserDao {
             statement.setString(3, user.getPassword());
             statement.setInt(4, user.getId());
             statement.executeUpdate();
+            System.out.println(user.getUserName());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -112,6 +112,21 @@ public class UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+    }
+    public List<User> findAll(){
+        List<User> users = new ArrayList<>();
+        try (Connection conn = DbUtil.getConnection()) {
+            PreparedStatement statement = conn.prepareStatement(FIND_ALL_USERS_QUERY);
+            ResultSet resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                User user = new User();
+                user.setId(resultSet.getInt("id"));
+                user.setUserName(resultSet.getString("userName"));
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
     }
 }
