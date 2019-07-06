@@ -15,7 +15,7 @@
         <br>
         <br>
         <br>
-        <H1> Ostatnie rozwiązania</H1>
+        <H1> Ostatnie rozwiązania </H1>
         <table border="1">
             <c:forEach items="${solutions}" var="solution">
             <tr>
