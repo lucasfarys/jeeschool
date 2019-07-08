@@ -1,52 +1,30 @@
+
+<%--
+  Created by IntelliJ IDEA.
+  User: lukasz
+  Date: 25.05.19
+  Time: 15:41
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>ProgramingSchool - HomePage · Moqups</title>
 <meta name="description" content="">
-<meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-<meta name="generator" content="Jekyll v3.8.5">
-<title>Starter Template · Bootstrap</title>
-
-<link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/starter-template/">
-
-<!-- Bootstrap core CSS -->
-<link href="/docs/4.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-
-<style>
-    .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-    }
-
-    @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-            font-size: 3.5rem;
-        }
-    }
-</style>
-<!-- Custom styles for this template -->
-<link href="starter-template.css" rel="stylesheet">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="#">JEESchool</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="http://localhost:8080/jeeschool_war_exploded/index">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="http://localhost:8080/jeeschool_war_exploded/groups">Grupy <span class="sr-only">(current)</span> </a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="http://localhost:8080/jeeschool_war_exploded/panelAdmin">Panel Administratora<span class="sr-only">(current)</span></a>
-            </li>
-        </ul>
-    </div>
-</nav>
+<!-- Do not index public projects -->
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" sizes="256x256" href="/favicon.png">
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<link rel="apple-touch-icon-precomposed" href="/favicon.png">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="slack-app-id" content="A4Y4RV4TD">
+<meta name="google-site-verification" content="1xUxK58xLEXMW_t_YX8PYx6SiEQPEUHY8bkKPx7ypiw">
+<link href="https://appstatic.moqups.com/css/viewer.465e27df64863cbade5e.css" rel="stylesheet"><script
+        charset="utf-8" src="https://appstatic.moqups.com/js/2.1a40aa61d366af4c6659.js"
+        crossorigin="anonymous"></script>
+<script charset="utf-8" src="https://appstatic.moqups.com/js/14.bfa00ae2203c1bc379b0.js"
+        crossorigin="anonymous"></script>
+<center>
+    <a href="index">Strona główna</a>
+    <a href="groups">Grupy</a>
+    <a href="panelAdmin">Panel Administratora</a>
+</center>
